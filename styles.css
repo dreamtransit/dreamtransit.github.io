@@ -83,3 +83,4 @@ h1 em,h2 em{color:#bd8b09}
 .hero-photo{width:min(100%,590px)}
 @media(max-width:900px){.hero-grid{gap:30px}}
 @media(max-width:680px){.hero-grid{grid-template-columns:1fr;gap:30px}.hero-photo{width:100%}}
+.hero-actions .button-outline[href^="tel:"]::before{content:"\260e ";font-size:15px;line-height:1}
