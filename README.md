@@ -1,6 +1,6 @@
-# Dream Transit Website Starter
+# Dream Transit Website
 
-Responsive website starter for Dream Transit. Public branding omits “LLC” as requested.
+Responsive transportation website starter for Dream Transit. Public branding omits “LLC” as requested.
 
 ## Preview locally
 1. Open this folder in Visual Studio Code.
