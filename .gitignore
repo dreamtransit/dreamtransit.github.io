@@ -2,3 +2,7 @@
 assets/dream-transit-flyer.png
 assets/dream-transit-care.jpg
 assets/dream-transit-senior.jpg
+.env
+.env.*
+!.env.example
+supabase/.temp/
