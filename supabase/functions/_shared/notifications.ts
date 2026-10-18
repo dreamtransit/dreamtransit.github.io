@@ -66,19 +66,26 @@ export async function sendSms(to: string, body: string): Promise<boolean> {
 }
 
 export function pendingTeamEmail(booking: BookingNotification): string {
+  const [hour, minute] = booking.pickupTime.split(":").map(Number);
+  const time = `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
   return [
-    `New ride request ${booking.id} (Pending; not confirmed)`,
-    `Customer: ${booking.firstName} ${booking.lastName}`,
+    "NEW RIDE REQUEST (Pending - not confirmed)",
+    "",
+    `First name: ${booking.firstName}`,
+    `Last name: ${booking.lastName}`,
     `Email: ${booking.email}`,
     `Phone: ${booking.phone}`,
     `Service: ${booking.service}`,
-    `Pickup: ${booking.pickupAddress}`,
+    `Date: ${booking.pickupDate}`,
+    `Time: ${time}`,
+    `Pickup address: ${booking.pickupAddress}`,
     `Destination: ${booking.destination}`,
-    `Requested date/time: ${booking.pickupDate} ${booking.pickupTime}`,
     `Round trip: ${booking.roundTrip ? "Yes" : "No"}`,
     `Mobility assistance: ${booking.mobilityNeeds.join(", ") || "None selected"}`,
     `Mobility details: ${booking.mobilityNotes || "None provided"}`,
-    `Additional information: ${booking.notes || "None provided"}`,
+    `Notes: ${booking.notes || "None provided"}`,
+    "",
+    `Request ID: ${booking.id}`,
     "Contact the customer directly to confirm details and availability.",
   ].join("\n");
 }
