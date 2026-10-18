@@ -82,3 +82,21 @@ export function pendingTeamEmail(booking: BookingNotification): string {
 export function pendingTeamSms(booking: BookingNotification): string {
   return `New Dream Transit ride request ${booking.id}: ${booking.firstName} ${booking.lastName}, ${booking.service}, ${booking.pickupDate} at ${booking.pickupTime}. Not confirmed; see email for details.`;
 }
+
+export function customerReceivedEmail(booking: BookingNotification): string {
+  return [
+    `Hello ${booking.firstName},`,
+    "",
+    "Thank you for choosing Dream Transit. We received your ride request.",
+    "",
+    `Service: ${booking.service}`,
+    `Requested date/time: ${booking.pickupDate} ${booking.pickupTime}`,
+    `Pickup: ${booking.pickupAddress}`,
+    `Destination: ${booking.destination}`,
+    "",
+    "Our team will send you a confirmation by email or call you shortly. This is not a confirmed ride until we reach out.",
+    "",
+    "Questions? Call 206-822-5188.",
+    "Dream Transit",
+  ].join("\n");
+}

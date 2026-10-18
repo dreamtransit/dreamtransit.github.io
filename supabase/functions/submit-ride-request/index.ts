@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, handleOptions, jsonResponse } from "../_shared/http.ts";
-import { pendingTeamEmail, pendingTeamSms, sendEmail, sendSms } from "../_shared/notifications.ts";
+import { customerReceivedEmail, pendingTeamEmail, pendingTeamSms, sendEmail, sendSms } from "../_shared/notifications.ts";
 
 const services = new Set([
   "Non-emergency medical transportation",
@@ -118,9 +118,10 @@ Deno.serve(async (request) => {
     const notificationResults = await Promise.allSettled([
       teamEmail ? sendEmail(teamEmail, "New Dream Transit ride request", pendingTeamEmail(booking)) : Promise.resolve(false),
       teamPhone ? sendSms(teamPhone, pendingTeamSms(booking)) : Promise.resolve(false),
+      sendEmail(booking.email, "We received your Dream Transit ride request", customerReceivedEmail(booking)),
     ]);
     const notificationsSent = notificationResults.filter((result) => result.status === "fulfilled" && result.value).length;
-    if (notificationsSent < 2) console.error("One or more team booking notifications were not sent.");
+    if (notificationsSent < 3) console.error("One or more booking notifications were not sent.");
 
     return jsonResponse(request, { ok: true, requestId: booking.id, status: "pending", notificationsSent }, 201);
   } catch (error) {
