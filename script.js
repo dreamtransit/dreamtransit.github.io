@@ -72,9 +72,7 @@ if (rideForm) {
       if (error) throw error;
       rideForm.reset();
       if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
-      rideMessage.textContent = data.notificationsSent === 2
-        ? 'Your request was received and the team was notified by email and text. This is not a confirmed ride.'
-        : 'Your request was saved, but the team notification could not be fully delivered. Please call 206-822-5188.';
+      rideMessage.textContent = 'Thank you! Your ride request was submitted successfully. The Dream Transit team will contact you shortly to confirm your ride. This is not a confirmed ride until we reach out.';
     } catch {
       rideMessage.textContent = 'We could not submit your request. Please call 206-822-5188.';
     } finally {
