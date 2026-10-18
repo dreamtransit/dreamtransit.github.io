@@ -34,7 +34,7 @@ if (rideForm) {
 
   const setupAlert = document.querySelector('.demo-alert');
   if (bookingClient) {
-    if (setupAlert) setupAlert.textContent = 'Requests are stored securely and sent to the Dream Transit team by email and text. A request is not a confirmed ride.';
+    setupAlert?.remove();
     const legalText = rideForm.querySelector('.form-legal');
     if (legalText) legalText.textContent = 'Please share only information needed to arrange transportation. Your request is not a confirmed ride.';
   } else {
