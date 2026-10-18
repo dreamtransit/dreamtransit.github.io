@@ -2,3 +2,6 @@ project_id = "jrtejhysoydvgwlpbxhp"
 
 [functions.submit-ride-request]
 verify_jwt = false
+
+[functions.confirm-ride]
+verify_jwt = false

@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { confirmLink } from "../_shared/confirmToken.ts";
 import { corsHeaders, handleOptions, jsonResponse } from "../_shared/http.ts";
 import { customerReceivedEmail, pendingTeamEmail, pendingTeamSms, sendEmail, sendSms } from "../_shared/notifications.ts";
 
@@ -115,8 +116,9 @@ Deno.serve(async (request) => {
     };
     const teamEmail = Deno.env.get("TEAM_NOTIFICATION_EMAIL");
     const teamPhone = Deno.env.get("TEAM_NOTIFICATION_PHONE");
+    const confirmUrl = Deno.env.get("CONFIRM_SECRET") ? await confirmLink(booking.id) : undefined;
     const notificationResults = await Promise.allSettled([
-      teamEmail ? sendEmail(teamEmail, "New Dream Transit ride request", pendingTeamEmail(booking)) : Promise.resolve(false),
+      teamEmail ? sendEmail(teamEmail, "New Dream Transit ride request", pendingTeamEmail(booking, confirmUrl)) : Promise.resolve(false),
       teamPhone ? sendSms(teamPhone, pendingTeamSms(booking)) : Promise.resolve(false),
       sendEmail(booking.email, "We received your Dream Transit ride request", customerReceivedEmail(booking)),
     ]);

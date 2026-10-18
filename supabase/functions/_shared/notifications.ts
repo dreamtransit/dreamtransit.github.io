@@ -65,9 +65,13 @@ export async function sendSms(to: string, body: string): Promise<boolean> {
   return response.ok;
 }
 
-export function pendingTeamEmail(booking: BookingNotification): string {
-  const [hour, minute] = booking.pickupTime.split(":").map(Number);
-  const time = `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
+function formatTime(value: string): string {
+  const [hour, minute] = value.split(":").map(Number);
+  return `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
+}
+
+export function pendingTeamEmail(booking: BookingNotification, confirmUrl?: string): string {
+  const time = formatTime(booking.pickupTime);
   return [
     "NEW RIDE REQUEST (Pending - not confirmed)",
     "",
@@ -81,12 +85,11 @@ export function pendingTeamEmail(booking: BookingNotification): string {
     `Pickup address: ${booking.pickupAddress}`,
     `Destination: ${booking.destination}`,
     `Round trip: ${booking.roundTrip ? "Yes" : "No"}`,
-    `Mobility assistance: ${booking.mobilityNeeds.join(", ") || "None selected"}`,
-    `Mobility details: ${booking.mobilityNotes || "None provided"}`,
     `Notes: ${booking.notes || "None provided"}`,
     "",
     `Request ID: ${booking.id}`,
     "Contact the customer directly to confirm details and availability.",
+    ...(confirmUrl ? ["", "CONFIRM THIS RIDE (emails the customer a confirmation):", confirmUrl] : []),
   ].join("\n");
 }
 
@@ -108,6 +111,25 @@ export function customerReceivedEmail(booking: BookingNotification): string {
     "Our team will send you a confirmation by email or call you shortly. This is not a confirmed ride until we reach out.",
     "",
     "Questions? Call 206-822-5188.",
+    "Dream Transit",
+  ].join("\n");
+}
+
+export function confirmedCustomerEmail(
+  booking: Pick<BookingNotification, "firstName" | "service" | "pickupDate" | "pickupTime" | "pickupAddress" | "destination">,
+): string {
+  return [
+    `Hello ${booking.firstName},`,
+    "",
+    "Your Dream Transit ride is confirmed.",
+    "",
+    `Service: ${booking.service}`,
+    `Date: ${booking.pickupDate}`,
+    `Time: ${formatTime(booking.pickupTime)}`,
+    `Pickup: ${booking.pickupAddress}`,
+    `Destination: ${booking.destination}`,
+    "",
+    "Need to change something? Call 206-822-5188.",
     "Dream Transit",
   ].join("\n");
 }

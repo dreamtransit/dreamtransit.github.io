@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Confirm ride | Dream Transit</title>
+  <style>
+    body{margin:0;background:#f4f6fa;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#142033}
+    .confirm-card{max-width:520px;margin:48px auto;padding:28px;background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+    h1{margin:0 0 16px;font-size:24px}
+    dl{margin:0 0 20px}
+    dt{font-size:12px;font-weight:700;text-transform:uppercase;color:#667;margin-top:12px}
+    dd{margin:2px 0 0;font-size:16px}
+    button{width:100%;padding:14px;font-size:16px;font-weight:700;border:0;border-radius:8px;background:#0b2447;color:#fff;cursor:pointer}
+    button:disabled{opacity:.5;cursor:default}
+    #status{margin-top:16px;font-weight:700}
+  </style>
+</head>
+<body>
+  <main class="confirm-card">
+    <h1>Confirm ride</h1>
+    <dl id="details"></dl>
+    <button id="confirm" type="button" hidden>Confirm ride and email customer</button>
+    <p id="status" role="status">Loading...</p>
+  </main>
+  <script src="supabase-config.js"></script>
+  <script src="confirm.js"></script>
+</body>
+</html>
