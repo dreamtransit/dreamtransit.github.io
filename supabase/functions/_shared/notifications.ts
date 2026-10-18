@@ -32,13 +32,17 @@ function formatPhone(phone: string): string {
 export async function sendEmail(to: string, subject: string, text: string): Promise<boolean> {
   const apiKey = getEnv("RESEND_API_KEY");
   const from = getEnv("EMAIL_FROM");
-  if (!apiKey || !from) return false;
+  if (!apiKey || !from) {
+    console.error("Email skipped: RESEND_API_KEY or EMAIL_FROM is not set.");
+    return false;
+  }
 
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({ from, to: [to], subject, text }),
   });
+  if (!response.ok) console.error(`Resend failed (${response.status}):`, (await response.text()).slice(0, 300));
   return response.ok;
 }
 
