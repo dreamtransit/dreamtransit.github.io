@@ -11,7 +11,7 @@ nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => 
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();
 const dateInput = document.querySelector('input[name="date"]');
-if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+if (dateInput) dateInput.min = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
 const rideForm = document.querySelector('#ride-form');
 const rideMessage = document.querySelector('#form-message');
 const rideSubmit = rideForm?.querySelector('[type="submit"]');
@@ -71,7 +71,7 @@ if (rideForm) {
       const { data, error } = await bookingClient.functions.invoke('submit-ride-request', { body: payload });
       if (error) throw error;
       rideForm.reset();
-      if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+      if (dateInput) dateInput.min = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
       rideMessage.textContent = 'Thank you! Your ride request was submitted successfully. The Dream Transit team will contact you shortly to confirm your ride. This is not a confirmed ride until we reach out.';
     } catch {
       rideMessage.textContent = 'We could not submit your request. Please call 206-822-5188.';

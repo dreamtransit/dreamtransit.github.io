@@ -63,7 +63,7 @@ Deno.serve(async (request) => {
     if (!validDate || hour > 23 || minute > 59) {
       return jsonResponse(request, { error: "Enter a valid pickup date and time." }, 400);
     }
-    if (pickupDate < new Date().toISOString().slice(0, 10) || pickupAddress.length < 3 || destination.length < 3) {
+    if (pickupDate < new Date().toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" }) || pickupAddress.length < 3 || destination.length < 3) {
       return jsonResponse(request, { error: "Enter a future date and complete pickup and destination addresses." }, 400);
     }
 
